@@ -12,5 +12,13 @@
             "homepage": "https://www.davask.com",
             "role": "Developer"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "DvkWP\\": "lib/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^4.3"
+    }
 }
