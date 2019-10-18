@@ -5,6 +5,7 @@
     "keywords": ["theme","plugin","development","helper"],
     "homepage": "https://www.davask.com",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "david asquiedge",
@@ -19,6 +20,7 @@
         }
     },
     "require": {
-        "symfony/var-dumper": "^4.3"
+        "symfony/var-dumper": "^4.3",
+        "symfony/console": "^4.3"
     }
 }
