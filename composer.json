@@ -1,0 +1,16 @@
+{
+    "name": "dvk/wordpress",
+    "type": "library",
+    "description": "Helper function for theme and plugin development",
+    "keywords": ["theme","plugin","development","helper"],
+    "homepage": "https://www.davask.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "david asquiedge",
+            "email": "wordpress@davask.com",
+            "homepage": "https://www.davask.com",
+            "role": "Developer"
+        }
+    ],
+}
