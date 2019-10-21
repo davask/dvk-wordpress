@@ -75,6 +75,7 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                 'show_in_menu' => true,
                 'show_in_nav_menus' => true,
                 'show_in_admin_bar' => true,
+                'show_in_rest' => true, // activate gutemberg editor
                 'menu_position' => 8,
                 'can_export' => true,
                 'rewrite' => $rewrite,
@@ -82,7 +83,7 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                 'exclude_from_search' => false,
                 'publicly_queryable' => true,
                 'capability_type' => 'post',
-                'menu_icon' => 'dashicons-media-document',
+                'menu_icon' => 'dashicons-admin-post',
             );
 
             register_post_type($this->type, $args);
