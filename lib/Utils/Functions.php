@@ -2,38 +2,30 @@
 
 namespace DvkWP\Utils;
 
+use DvkWP\Utils\Debug as D;
+
 if ( ! class_exists( '\DvkWP\Utils\Functions', false ) ) {
 
     class Functions {
 
+        private $defined_functions;
+
         public function __construct() {
 
+            $this->defined_functions = get_defined_functions()['user'];
+
         }
 
-        static function fNotexisst() {
-            \DvkWP\Utils\Debug::dump('Ooops');
-        }
-
-        /**
-         * Integrate dump() function from symfony.
-         *
-         * @since      0.0.1
-         */
-        static function f($parent_theme_function_name = null, $prefix = 'dvk_') {
-
-            $function_name = "{$prefix}{$parent_theme_function_name}";
-
-            if (!empty($parent_theme_function_name) && !empty($parent_theme_function_name)) {
-
-                if(function_exists($function_name)) {
-
-                    return $function_name;
-
-                } elseif (function_exists($parent_theme_function_name)) {
-                    return $parent_theme_function_name;
+        function __call($func, $params){
+            if(in_array($func, $this->defined_functions)){
+                if(method_exists($this,$func)){
+                    call_user_func_array([$this,$func],$params);
+                } else {
+                    call_user_func_array($func,$params);
                 }
+            } else {
+                D::dump($func.' do not exists');
             }
-            return '\DvkWP\Utils\Functions::fNotexisst';
         }
 
     }
