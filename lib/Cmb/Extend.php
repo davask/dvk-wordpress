@@ -26,8 +26,6 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
 
         public function register() {
 
-            D::dump($this->name);
-
             // Set UI labels for Custom Post Type
             $labels = array(
                 'name' => _x($this->name, $this->name.' Type General Name', $this->text_domain),
