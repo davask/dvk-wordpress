@@ -1,0 +1,6 @@
+[submodule "vendor/rubengc/cmb2-tabs"]
+	path = vendor/rubengc/cmb2-tabs
+	url = git@github.com:rubengc/cmb2-tabs.git
+[submodule "vendor/rubengc/cmb2-field-ajax-search"]
+	path = vendor/rubengc/cmb2-field-ajax-search
+	url = git@github.com:rubengc/cmb2-field-ajax-search.git
