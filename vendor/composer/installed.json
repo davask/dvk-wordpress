@@ -388,30 +388,6 @@
         ]
     },
     {
-        "name": "rubengc/cmb2-field-ajax-search",
-        "version": "master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/rubengc/cmb2-field-ajax-search.git",
-            "reference": "master"
-        },
-        "type": "library",
-        "installation-source": "source"
-    },
-    {
-        "name": "rubengc/cmb2-tabs",
-        "version": "master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/rubengc/cmb2-tabs.git",
-            "reference": "master"
-        },
-        "type": "library",
-        "installation-source": "source"
-    },
-    {
         "name": "symfony/console",
         "version": "v4.3.8",
         "version_normalized": "4.3.8.0",

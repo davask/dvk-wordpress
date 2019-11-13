@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8ecaa2fa8390474f60c0c4efb60c1d5",
+    "content-hash": "adf4ae214fc346cd834c1ec9c7c67b2c",
     "packages": [
         {
             "name": "altorouter/altorouter",
@@ -381,28 +381,6 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
-        },
-        {
-            "name": "rubengc/cmb2-field-ajax-search",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rubengc/cmb2-field-ajax-search.git",
-                "reference": "master"
-            },
-            "type": "library",
-            "time": "2019-03-14T16:27:23+00:00"
-        },
-        {
-            "name": "rubengc/cmb2-tabs",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rubengc/cmb2-tabs.git",
-                "reference": "master"
-            },
-            "type": "library",
-            "time": "2018-01-04T20:42:45+00:00"
         },
         {
             "name": "symfony/console",
@@ -1030,10 +1008,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "rubengc/cmb2-tabs": 20,
-        "rubengc/cmb2-field-ajax-search": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
