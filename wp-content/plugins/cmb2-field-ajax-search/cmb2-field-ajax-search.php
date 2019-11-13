@@ -183,8 +183,8 @@ if( ! class_exists( 'CMB2_Field_Ajax_Search' ) ) {
          */
         public function setup_admin_scripts() {
 
-            wp_register_script( 'jquery-autocomplete-ajax-search', MIT_CHILD_URI . '/vendor/rubengc/cmb2-field-ajax-search/js/jquery.autocomplete.min.js', array( 'jquery' ), self::VERSION, true );
-            wp_register_script( 'cmb-ajax-search', MIT_CHILD_URI . '/vendor/rubengc/cmb2-field-ajax-search/js/ajax-search.js', array( 'jquery', 'jquery-autocomplete-ajax-search', 'jquery-ui-sortable' ), self::VERSION, true );
+            wp_register_script( 'jquery-autocomplete-ajax-search', MIT_DVKWP . '/vendor/rubengc/cmb2-field-ajax-search/js/jquery.autocomplete.min.js', array( 'jquery' ), self::VERSION, true );
+            wp_register_script( 'cmb-ajax-search', MIT_DVKWP . '/vendor/rubengc/cmb2-field-ajax-search/js/ajax-search.js', array( 'jquery', 'jquery-autocomplete-ajax-search', 'jquery-ui-sortable' ), self::VERSION, true );
 
             wp_localize_script( 'cmb-ajax-search', 'cmb_ajax_search', array(
                 'ajaxurl'   => admin_url( 'admin-ajax.php' ),
@@ -193,7 +193,7 @@ if( ! class_exists( 'CMB2_Field_Ajax_Search' ) ) {
             ) );
 
             wp_enqueue_script( 'cmb-ajax-search' );
-            wp_enqueue_style( 'cmb-ajax-search', MIT_CHILD_URI . '/vendor/rubengc/cmb2-field-ajax-search/css/ajax-search.css', array(), self::VERSION );
+            wp_enqueue_style( 'cmb-ajax-search', MIT_DVKWP . '/vendor/rubengc/cmb2-field-ajax-search/css/ajax-search.css', array(), self::VERSION );
 
         }
 
