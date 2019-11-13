@@ -43,7 +43,9 @@ class Timbr {
 
         new StarterSite();
 
-        new WooCommerce_Theme();
+        if ( class_exists( 'WooCommerce' ) ) {
+            new WooCommerce_Theme();
+        }
 
         foreach (glob(MIT_SRC_MARASIT.'/Timber/*.php') as $file) {
 

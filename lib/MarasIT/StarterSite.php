@@ -8,8 +8,12 @@ use DvkWP\MarasIT\Cmb as Cmb;
 
 class StarterSite extends \Timber\Site {
 
+    private $MarasITStarterSite;
+
     /** Add timber support. */
     public function __construct() {
+
+        $this->MarasITStarterSite = new \MarasIT\StarterSite();
 
         add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
         add_filter( 'timber/context', array( $this, 'add_to_context' ) );
@@ -17,6 +21,7 @@ class StarterSite extends \Timber\Site {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'register_taxonomies' ) );
         parent::__construct();
+
 
     }
 
@@ -42,6 +47,8 @@ class StarterSite extends \Timber\Site {
         $context['media'] = [
             'version' => defined('MIT_VERSION') ? MIT_VERSION : '1.0.0',
         ];
+
+        $context = $this->MarasITStarterSite->add_to_context( $context );
 
         return $context;
     }
@@ -111,14 +118,8 @@ class StarterSite extends \Timber\Site {
         $twig->addExtension( new Twig\Extension\StringLoaderExtension() );
 
         $twig->addFunction( new Timber\Twig_Function( 'dd', '\DvkWP\Utils\Debug::dump' ) );
-        $twig->addFunction( new Timber\Twig_Function( 'bc', function(){
-            // <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="blog.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>{{post.title}} <i class="ion-ios-arrow-forward"></i></span></p>
-            if ( function_exists('yoast_breadcrumb') ) {
-                yoast_breadcrumb('<p class="breadcrumbs">','</p>');
-            }
-        } ) );
 
-        $twig->addFilter( new Timber\Twig_Filter( 'unserialize', 'unserialize' ) );
+        $twig = $this->MarasITStarterSite->add_to_twig( $twig );
 
         return $twig;
 
