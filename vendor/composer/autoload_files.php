@@ -7,7 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
+    '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
     '0d59ee240a4cd96ddbb4ff164fccea4d' => $vendorDir . '/symfony/polyfill-php73/bootstrap.php',
     '25072dd6e2470089de65ae7bf11d3109' => $vendorDir . '/symfony/polyfill-php72/bootstrap.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
+    'f0f7d91a08e889bdd2fd855c635fa7d9' => $baseDir . '/wp-content/plugins/cmb2/init.php',
+    'b15843a4f09e59f0d35d2ec51043021d' => $baseDir . '/wp-content/plugins/cmb2-tabs/cmb2-tabs.php',
+    '90059dc7f9a3b22d0f3ee91788a69614' => $baseDir . '/wp-content/plugins/cmb2-field-ajax-search/cmb2-field-ajax-search.php',
 );

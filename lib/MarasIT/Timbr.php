@@ -1,9 +1,9 @@
 <?php
 namespace DvkWP\MarasIT;
 
+use \Timber as Timber;
 use DvkWP\MarasIT\StarterSite as StarterSite;
 use DvkWP\MarasIT\WooCommerce_Theme as WooCommerce_Theme;
-use Timber;
 
 use DvkWP\Utils\Debug as D;
 
@@ -13,7 +13,7 @@ class Timbr {
 
     public function __construct($lang = "en") {
 
-        D::dump(['Timber',class_exists( 'Timber' )], true);
+        $this->timber = new Timber\Timber();
 
         if ( ! class_exists( 'Timber' ) ) {
             add_action(
@@ -31,8 +31,6 @@ class Timbr {
             return;
         }
 
-        $this->timber = new \Timber\Timber();
-
         /**
          * Sets the directories (inside your theme) to find .twig files
          */
@@ -44,6 +42,7 @@ class Timbr {
         Timber::$autoescape = false;
 
         new StarterSite();
+
         new WooCommerce_Theme();
 
         foreach (glob(MIT_SRC_MARASIT.'/Timber/*.php') as $file) {
