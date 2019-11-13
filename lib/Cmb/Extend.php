@@ -214,10 +214,10 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                     'rewrite' => array('slug' => $taxonomy_slug),
                 ));
 
-                \Routes::map($taxonomy_slug.'/:taxonomy', function($params){
-                    $query = 'posts_per_page=3&post_type='.$params['taxonomy'];
-                    \Routes::load('taxonomy.php', null, $query, 200);
-                });
+                // \Routes::map($taxonomy_slug.'/:taxonomy', function($params){
+                //     $query = 'posts_per_page=3&post_type='.$params['taxonomy'];
+                //     \Routes::load('taxonomy.php', null, $query, 200);
+                // });
 
             }
 
