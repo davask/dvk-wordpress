@@ -21,7 +21,9 @@
             "MarasIT\\": "../../../src/MarasIT/"
         },
         "files": [
-            "wp-content/plugins/cmb2/init.php"
+            "wp-content/plugins/cmb2/init.php",
+            "wp-content/plugins/cmb2-tabs/cmb2-tabs.php",
+            "wp-content/plugins/cmb2-field-ajax-search/cmb2-field-ajax-search.php"
         ]
     },
     "require": {
