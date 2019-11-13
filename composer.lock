@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0f6b2ed3971c8f7f7fe098cf75da695",
+    "content-hash": "106d62dfa43bf1b35661508581961f81",
     "packages": [
         {
             "name": "altorouter/altorouter",
@@ -1029,9 +1029,8 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "rubengc/cmb2-tabs": 20,
         "rubengc/cmb2-field-ajax-search": 20
     },
     "prefer-stable": false,

@@ -1,7 +1,8 @@
 {
     "name": "dvk/wordpress",
-    "type": "library",
     "description": "Helper function for theme and plugin development",
+    "type": "library",
+    "minimum-stability" : "dev",
     "keywords": ["theme","plugin","development","helper"],
     "version": "dev-0.0.1-alpha",
     "homepage": "https://www.marasit.com",
@@ -69,7 +70,7 @@
         "timber/timber": "1.*",
         "mindkomm/timber-integration-woocommerce": "^0.5.2",
         "cmb2/cmb2": "v2.6.0",
-        "rubengc/cmb2-tabs": "dev-master",
+        "rubengc/cmb2-tabs": "master",
         "rubengc/cmb2-field-ajax-search": "dev-master"
     }
 }
