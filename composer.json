@@ -26,51 +26,11 @@
             "wp-content/plugins/cmb2-field-ajax-search/cmb2-field-ajax-search.php"
         ]
     },
-    "repositories": [
-        {
-            "type":"package",
-            "package": {
-              "name": "cmb2/cmb2",
-              "version":"master",
-              "source": {
-                  "url": "https://github.com/cmb2/cmb2.git",
-                  "type": "git",
-                  "reference":"master"
-                }
-            }
-        },
-        {
-            "type":"package",
-            "package": {
-              "name": "rubengc/cmb2-tabs",
-              "version":"master",
-              "source": {
-                  "url": "https://github.com/rubengc/cmb2-tabs.git",
-                  "type": "git",
-                  "reference":"master"
-                }
-            }
-        },
-        {
-            "type":"package",
-            "package": {
-              "name": "rubengc/cmb2-field-ajax-search",
-              "version":"master",
-              "source": {
-                  "url": "https://github.com/rubengc/cmb2-field-ajax-search.git",
-                  "type": "git",
-                  "reference":"master"
-                }
-            }
-        }
-    ],
     "require": {
         "symfony/var-dumper": "^4.3",
         "symfony/console": "^4.3",
         "timber/timber": "1.*",
         "mindkomm/timber-integration-woocommerce": "^0.5.2",
-        "cmb2/cmb2": "v2.6.0",
-        "rubengc/cmb2-tabs": "dev-master",
-        "rubengc/cmb2-field-ajax-search": "dev-master"
+        "cmb2/cmb2": "v2.6.0"
     }
 }
