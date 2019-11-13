@@ -76,6 +76,7 @@ class ApplicationTest extends TestCase
         require_once self::$fixturesPath.'/TestAmbiguousCommandRegistering.php';
         require_once self::$fixturesPath.'/TestAmbiguousCommandRegistering2.php';
         require_once self::$fixturesPath.'/FooHiddenCommand.php';
+        require_once self::$fixturesPath.'/BarHiddenCommand.php';
     }
 
     protected function normalizeLineBreaks($text)
@@ -441,6 +442,16 @@ class ApplicationTest extends TestCase
         ];
     }
 
+    public function testFindWithAmbiguousAbbreviationsFindsCommandIfAlternativesAreHidden()
+    {
+        $application = new Application();
+
+        $application->add(new \FooCommand());
+        $application->add(new \FooHiddenCommand());
+
+        $this->assertInstanceOf('FooCommand', $application->find('foo:'));
+    }
+
     public function testFindCommandEqualNamespace()
     {
         $application = new Application();
@@ -706,6 +717,39 @@ class ApplicationTest extends TestCase
         $application->add(new \FooCommand());
         $application->add(new \Foo4Command());
         $application->find('foo::bar');
+    }
+
+    public function testFindHiddenWithExactName()
+    {
+        $application = new Application();
+        $application->add(new \FooHiddenCommand());
+
+        $this->assertInstanceOf('FooHiddenCommand', $application->find('foo:hidden'));
+        $this->assertInstanceOf('FooHiddenCommand', $application->find('afoohidden'));
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Command "%s:hidden" is hidden, finding it using an abbreviation is deprecated since Symfony 4.4, use its full name instead.
+     * @dataProvider provideAbbreviationsForHiddenCommands
+     */
+    public function testFindHiddenWithAbbreviatedName($name)
+    {
+        $application = new Application();
+
+        $application->add(new \FooHiddenCommand());
+        $application->add(new \BarHiddenCommand());
+
+        $application->find($name);
+    }
+
+    public function provideAbbreviationsForHiddenCommands()
+    {
+        return [
+            ['foo:hidde'],
+            ['afoohidd'],
+            ['bar:hidde'],
+        ];
     }
 
     public function testSetCatchExceptions()
@@ -1743,7 +1787,7 @@ class CustomApplication extends Application
      *
      * @return InputDefinition An InputDefinition instance
      */
-    protected function getDefaultInputDefinition()
+    protected function getDefaultInputDefinition(): InputDefinition
     {
         return new InputDefinition([new InputOption('--custom', '-c', InputOption::VALUE_NONE, 'Set the custom input definition.')]);
     }
@@ -1753,7 +1797,7 @@ class CustomApplication extends Application
      *
      * @return HelperSet A HelperSet instance
      */
-    protected function getDefaultHelperSet()
+    protected function getDefaultHelperSet(): HelperSet
     {
         return new HelperSet([new FormatterHelper()]);
     }
@@ -1776,15 +1820,17 @@ class CustomDefaultCommandApplication extends Application
 
 class LazyCommand extends Command
 {
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('lazy-command called');
+
+        return 0;
     }
 }
 
 class DisabledCommand extends Command
 {
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return false;
     }

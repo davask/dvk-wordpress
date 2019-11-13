@@ -71,6 +71,6 @@
         "mindkomm/timber-integration-woocommerce": "^0.5.2",
         "cmb2/cmb2": "v2.6.0",
         "rubengc/cmb2-tabs": "master",
-        "rubengc/cmb2-field-ajax-search": "dev-master"
+        "rubengc/cmb2-field-ajax-search": "master"
     }
 }
