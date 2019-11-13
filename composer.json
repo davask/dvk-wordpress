@@ -69,7 +69,7 @@
         "symfony/console": "^4.3",
         "timber/timber": "1.*",
         "mindkomm/timber-integration-woocommerce": "^0.5.2",
-        "cmb2/cmb2": "v2.6.0",
+        "cmb2/cmb2": "v2.6.0"
     },
     "require-dev": {
         "rubengc/cmb2-tabs": "dev-master",
