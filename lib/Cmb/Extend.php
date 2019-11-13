@@ -12,6 +12,9 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
         protected $type;
         protected $name;
         protected $prefix;
+        protected $suffix;
+        protected $taxonomy;
+        protected $taxonomies;
         protected $groups;
 
         public function __construct($post_type = 'post', $prefix = 'post', $text_domain = 'marasit') {
@@ -19,12 +22,16 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
             $this->type = $post_type;
             $this->name = ucfirst($prefix);
             $this->prefix = $prefix.'_';
+            $this->taxonomy = 'category';
+            $this->taxonomies = ['category', 'tag'];
+            $this->suffix = 'base';
+            $this->suffixes = array_merge(['base'], $this->taxonomies);
             $this->text_domain = $text_domain;
             $this->groups = [];
 
         }
 
-        public function register() {
+        public function register($capability_type = "page", $custom_supports = [], $menu_icon = 'dashicons-admin-post', $menu_position = 100, $taxonomies = [], $permalinks = []) {
 
             // Set UI labels for Custom Post Type
             $labels = array(
@@ -43,24 +50,26 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                 'not_found_in_trash' => __('Not found in Trash', $this->text_domain),
             );
 
-            $supports = array(
-                'title',
-                'editor',
-                'author',
-                'thumbnail',
-                'excerpt',
-                'trackbacks',
-                'custom-fields',
-                'comments',
-                'revisions',
-                'page-attributes',
-                'post-formats'
-            );
+            if (empty($custom_supports)) {
+                $custom_supports = array(
+                    'title',
+                    'editor',
+                    'author',
+                    'thumbnail',
+                    'excerpt',
+                    'trackbacks',
+                    'custom-fields',
+                    'comments',
+                    'revisions',
+                    'page-attributes',
+                    'post-formats'
+                );
+            }
 
-            $taxonomies = array();
+            $supports = $custom_supports;
 
             $rewrite = array(
-                'slug' => get_option($this->prefix.'base', $this->type),
+                'slug' => get_option($this->prefix.$this->suffix, $this->type),
             );
 
             $args = array(
@@ -68,7 +77,7 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                 'description' => __($this->name.' news and reviews', $this->text_domain),
                 'labels' => $labels,
                 'supports' => $supports,
-                'taxonomies' => $taxonomies,
+                'taxonomies' => [],
                 'hierarchical' => false,
                 'public' => true,
                 'show_ui' => true,
@@ -76,17 +85,26 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
                 'show_in_nav_menus' => true,
                 'show_in_admin_bar' => true,
                 'show_in_rest' => true, // activate gutemberg editor
-                'menu_position' => 8,
+                'menu_position' => $menu_position,
                 'can_export' => true,
                 'rewrite' => $rewrite,
                 'has_archive' => true,
                 'exclude_from_search' => false,
                 'publicly_queryable' => true,
-                'capability_type' => 'post',
-                'menu_icon' => 'dashicons-admin-post',
+                'capability_type' => $capability_type,
+                'menu_icon' => $menu_icon,
             );
 
             register_post_type($this->type, $args);
+
+            array_merge($this->taxonomies, $taxonomies);
+            $this->taxonomies();
+
+            if (empty($permalinks)) $permalinks = $taxonomies;
+            array_merge($this->suffixes, $permalinks);
+
+            add_action('load-options-permalink.php', array($this,'permalink'));
+
         }
 
 
@@ -130,17 +148,104 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
 
         public function setGroups() {
             foreach ($this->groups as $key => $group) {
+
                 if (!empty($group['params']['id']) && !empty($group['params']['object_types'])) {
+
                     // https://github.com/CMB2/CMB2/wiki/Display-Options
                     $box = new_cmb2_box($group['params']);
-                    foreach ($group['fields'] as $key => $params) {
+
+
+                    foreach ($group['fields'] as $key => $field) {
                         // https://github.com/CMB2/CMB2/wiki/Field-Types
-                        $box->add_field($params);
+
+                        if(!empty($field["fields"]) && !empty($field["params"])) {
+
+                            $group_id = $box->add_field($field["params"]);
+
+                            foreach ($field['fields'] as $key => $params) {
+                                // https://github.com/CMB2/CMB2/wiki/Field-Types
+                                $box->add_group_field($group_id, $params);
+                            }
+
+                        } else {
+
+                            $params = $field;
+                            $box->add_field($params);
+
+                        }
+
                     }
+
                 }
+
             }
         }
 
+        public function taxonomies() {
+
+            foreach ($this->taxonomies as $key => $taxonomy) {
+
+                $this->taxonomy = $taxonomy;
+
+                $labels = array(
+                    'name' => _x(ucfirst($this->type).' '.ucfirst($this->taxonomy), 'taxonomy general name'),
+                    'singular_name' => _x(ucfirst($this->type), 'taxonomy singular name'),
+                    'search_items' => __('Search '.ucfirst($this->taxonomy)),
+                    'all_items' => __('All '.ucfirst($this->taxonomy)),
+                    'parent_item' => __('Parent '.ucfirst($this->type)),
+                    'parent_item_colon' => __('Parent '.ucfirst($this->type).':'),
+                    'edit_item' => __('Edit '.ucfirst($this->type)),
+                    'update_item' => __('Update '.ucfirst($this->type)),
+                    'add_new_item' => __('Add New '.ucfirst($this->type)),
+                    'new_item_name' => __('New '.ucfirst($this->type).' Name'),
+                    'menu_name' => __(ucfirst($this->taxonomy)),
+                );
+
+                $taxonomy_slug = get_option($this->prefix.$this->taxonomy, $this->type.'-'.$this->taxonomy);
+
+                register_taxonomy($this->type.'_'.$this->taxonomy, array($this->type), array(
+                    'labels' => $labels,
+                    'public' => true,
+                    'hierarchical' => true,
+                    'show_ui' => true,
+                    'show_in_menu' => true,
+                    'show_admin_column' => true,
+                    'query_var' => true,
+                    'rewrite' => array('slug' => $taxonomy_slug),
+                ));
+
+                \Routes::map($taxonomy_slug.'/:taxonomy', function($params){
+                    $query = 'posts_per_page=3&post_type='.$params['taxonomy'];
+                    \Routes::load('taxonomy.php', null, $query, 200);
+                });
+
+            }
+
+        }
+
+        public function permalink() {
+
+            foreach ($this->suffixes as $key => $suffix) {
+                $this->suffix = $suffix;
+
+                if (isset($_POST[$this->prefix.$this->suffix])) {
+                    update_option($this->prefix.$this->suffix, sanitize_title_with_dashes($_POST[$this->prefix.$this->suffix]));
+                }
+                // Add a settings field to the permalink page
+                add_settings_field($this->prefix.$this->suffix, __($this->name.' '.ucfirst($this->suffix)), array($this, 'save_permalink'), 'permalink', 'optional', $this->suffix);
+            }
+
+
+        }
+
+        function save_permalink($suffix = 'base') {
+            $default_value = $this->type;
+            if ($suffix != 'base') {
+                $default_value .= "-".$suffix;
+            }
+            $value = get_option($this->prefix.$suffix, $default_value);
+            echo '<input type="text" value="' . esc_attr($value) . '" name="'.$this->prefix.$suffix.'" id="'.$this->prefix.$suffix.'" class="regular-text" />';
+        }
 
     }
 
