@@ -5,10 +5,13 @@ namespace DvkWP\MarasIT;
 use Timber as Timber;
 use Twig as Twig;
 use DvkWP\MarasIT\Cmb as Cmb;
+use DvkWP\Utils\Debug as D;
 
 class StarterSite extends \Timber\Site {
 
     private $MarasITStarterSite;
+    private $post_types;
+    private $taxonomies;
 
     /** Add timber support. */
     public function __construct() {
@@ -22,18 +25,23 @@ class StarterSite extends \Timber\Site {
         add_action( 'init', array( $this, 'register_taxonomies' ) );
         parent::__construct();
 
-
     }
 
     /** This is where you can register custom post types. */
     public function register_post_types() {
 
-        $post_types = new Cmb();
+        $this->post_types = (new Cmb())->post_types;
 
     }
 
     /** This is where you can register custom taxonomies. */
     public function register_taxonomies() {
+
+        foreach ($this->post_types as $key => $post_type) {
+            foreach ($post_type->taxonomies2register as $k => $taxonomy) {
+                $post_type->registerTaxonomies($taxonomy);
+           }
+        }
 
     }
 
