@@ -16,6 +16,7 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
         protected $taxonomy;
         protected $taxonomies;
         protected $groups;
+        public $taxonomies2register;
 
         public function __construct($post_type = 'post', $prefix = 'post', $text_domain = 'marasit') {
 
@@ -28,6 +29,7 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
             $this->suffixes = array_merge(['base'], $this->taxonomies);
             $this->text_domain = $text_domain;
             $this->groups = [];
+            $this->taxonomies2register = [];
 
         }
 
@@ -98,12 +100,13 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
             register_post_type($this->type, $args);
 
             array_merge($this->taxonomies, $taxonomies);
-            $this->taxonomies();
 
             if (empty($permalinks)) $permalinks = $taxonomies;
             array_merge($this->suffixes, $permalinks);
 
             add_action('load-options-permalink.php', array($this,'permalink'));
+
+            return $this->storeTaxonomies();
 
         }
 
@@ -181,45 +184,43 @@ if ( ! class_exists( '\DvkWP\Cmb\Extend', false ) ) {
             }
         }
 
-        public function taxonomies() {
-
+        public function storeTaxonomies() {
             foreach ($this->taxonomies as $key => $taxonomy) {
 
-                $this->taxonomy = $taxonomy;
-
-                $labels = array(
-                    'name' => _x(ucfirst($this->type).' '.ucfirst($this->taxonomy), 'taxonomy general name'),
-                    'singular_name' => _x(ucfirst($this->type), 'taxonomy singular name'),
-                    'search_items' => __('Search '.ucfirst($this->taxonomy)),
-                    'all_items' => __('All '.ucfirst($this->taxonomy)),
-                    'parent_item' => __('Parent '.ucfirst($this->type)),
-                    'parent_item_colon' => __('Parent '.ucfirst($this->type).':'),
-                    'edit_item' => __('Edit '.ucfirst($this->type)),
-                    'update_item' => __('Update '.ucfirst($this->type)),
-                    'add_new_item' => __('Add New '.ucfirst($this->type)),
-                    'new_item_name' => __('New '.ucfirst($this->type).' Name'),
-                    'menu_name' => __(ucfirst($this->taxonomy)),
-                );
-
-                $taxonomy_slug = get_option($this->prefix.$this->taxonomy, $this->type.'-'.$this->taxonomy);
-
-                register_taxonomy($this->type.'_'.$this->taxonomy, array($this->type), array(
-                    'labels' => $labels,
-                    'public' => true,
-                    'hierarchical' => true,
-                    'show_ui' => true,
-                    'show_in_menu' => true,
-                    'show_admin_column' => true,
-                    'query_var' => true,
-                    'rewrite' => array('slug' => $taxonomy_slug),
-                ));
-
-                \Routes::map($taxonomy_slug.'/:taxonomy', function($params){
-                    $query = 'posts_per_page=3&post_type='.$params['taxonomy'];
-                    \Routes::load('taxonomy.php', null, $query, 200);
-                });
-
+                $this->taxonomies2register[] = $taxonomy;
             }
+        }
+
+        public function registerTaxonomies($taxonomy) {
+
+            $this->taxonomy = $taxonomy;
+
+            $labels = array(
+                'name' => _x(ucfirst($this->type).' '.ucfirst($this->taxonomy), 'taxonomy general name'),
+                'singular_name' => _x(ucfirst($this->type), 'taxonomy singular name'),
+                'search_items' => __('Search '.ucfirst($this->taxonomy)),
+                'all_items' => __('All '.ucfirst($this->taxonomy)),
+                'parent_item' => __('Parent '.ucfirst($this->type)),
+                'parent_item_colon' => __('Parent '.ucfirst($this->type).':'),
+                'edit_item' => __('Edit '.ucfirst($this->type)),
+                'update_item' => __('Update '.ucfirst($this->type)),
+                'add_new_item' => __('Add New '.ucfirst($this->type)),
+                'new_item_name' => __('New '.ucfirst($this->type).' Name'),
+                'menu_name' => __(ucfirst($this->taxonomy)),
+            );
+
+            $taxonomy_slug = get_option($this->prefix.$this->taxonomy, $this->type.'-'.$this->taxonomy);
+
+            register_taxonomy($this->type.'_'.$this->taxonomy, array($this->type), array(
+                'labels' => $labels,
+                'public' => true,
+                'hierarchical' => true,
+                'show_ui' => true,
+                'show_in_menu' => true,
+                'show_admin_column' => true,
+                'query_var' => true,
+                'rewrite' => array('slug' => $taxonomy_slug),
+            ));
 
         }
 
