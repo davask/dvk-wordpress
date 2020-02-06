@@ -17,6 +17,9 @@ if ( ! class_exists( '\DvkWP\Utils\Debug', false ) ) {
     	 */
     	 public static function dump($var, $die = false) {
 
+            if(!defined('WP_DEBUG')) define('WP_DEBUG', false);
+            if(!defined('DVK_DEBUG')) define('DVK_DEBUG', false);
+
     		if (WP_DEBUG OR DVK_DEBUG) {
                 if ((integer)substr(phpversion(),0,1) >= 7) {
                    dump($var);
