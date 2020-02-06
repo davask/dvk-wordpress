@@ -96,10 +96,14 @@ if( !class_exists( 'CMB2_Tabs' ) ) {
          * Enqueue scripts and styles
          */
         public function setup_admin_scripts() {
-            wp_register_script( 'cmb-tabs', MIT_DVKWP . '/vendor/rubengc/cmb2-tabs/js/tabs.js', array( 'jquery' ), self::VERSION, true );
+
+            if(!defined('MIT_CHILD_URI')) define('MIT_CHILD_URI', get_stylesheet_directory_uri());
+            if(!defined('MIT_DVKWP_URI')) define('MIT_DVKWP_URI', MIT_CHILD_URI."/vendor/dvk/wordpress");
+
+            wp_register_script( 'cmb-tabs', MIT_DVKWP_URI . '/vendor/rubengc/cmb2-tabs/js/tabs.js', array( 'jquery' ), self::VERSION, true );
             wp_enqueue_script( 'cmb-tabs' );
 
-            wp_enqueue_style( 'cmb-tabs', MIT_DVKWP . '/vendor/rubengc/cmb2-tabs/css/tabs.css', array(), self::VERSION );
+            wp_enqueue_style( 'cmb-tabs', MIT_DVKWP_URI . '/vendor/rubengc/cmb2-tabs/css/tabs.css', array(), self::VERSION );
             wp_enqueue_style( 'cmb-tabs' );
 
         }

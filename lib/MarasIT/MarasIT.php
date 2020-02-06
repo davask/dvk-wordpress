@@ -58,6 +58,7 @@ class MarasIT {
 
         define('MIT_SRC_MARASIT', MIT_CHILD_DIR."/src/MarasIT");
         define('MIT_DVKWP', MIT_CHILD_DIR."/vendor/dvk/wordpress");
+        define('MIT_DVKWP_URI', MIT_CHILD_URI."/vendor/dvk/wordpress");
 
     }
 
